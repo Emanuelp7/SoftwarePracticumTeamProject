@@ -92,7 +92,6 @@ public class ATMTest {
         System.out.println("cardInserted");
         ATM instance = new ATM(42, "Gordon College", "First National Bank of Podunk",null);
         instance.cardInserted();
-        assertFalse(false);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -134,7 +133,7 @@ public class ATMTest {
     public void testGetBankName() {
         System.out.println("getBankName");
         ATM instance = new ATM(42, "Gordon College", "First National Bank of Podunk",null);
-        String expResult = "";
+        String expResult = "First National Bank of Podunk";
         String result = instance.getBankName();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
