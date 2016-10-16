@@ -52,7 +52,7 @@ public class SimulationTest {
         Simulation result = Simulation.getInstance();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -66,7 +66,7 @@ public class SimulationTest {
         Money result = instance.getInitialCash();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -80,7 +80,7 @@ public class SimulationTest {
         Card result = instance.readCard();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -92,7 +92,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.ejectCard();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -104,7 +104,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.retainCard();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -116,7 +116,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.clearDisplay();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -129,7 +129,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.display(text);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -145,7 +145,7 @@ public class SimulationTest {
         String result = instance.readInput(mode, maxValue);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -158,7 +158,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.dispenseCash(amount);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -172,7 +172,7 @@ public class SimulationTest {
         boolean result = instance.acceptEnvelope();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -185,7 +185,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.printReceiptLine(text);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -198,7 +198,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.printLogLine(text);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -214,7 +214,7 @@ public class SimulationTest {
         Status result = instance.sendMessage(message, balances);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -227,7 +227,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.switchChanged(on);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -239,7 +239,7 @@ public class SimulationTest {
         Simulation instance = null;
         instance.cardInserted();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -253,7 +253,7 @@ public class SimulationTest {
         GUI result = instance.getGUI();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -267,7 +267,7 @@ public class SimulationTest {
         SimulatedBank result = instance.getSimulatedBank();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
