@@ -43,12 +43,12 @@ public class CardTest {
     @Test
     public void testGetNumber() {
         System.out.println("getNumber");
-        Card instance = null;
-        int expResult = 0;
-        int result = instance.getNumber();
+        Card instance = new Card(30); //Set number to 30
+        int expResult = 30; //should return 30
+        int result = instance.getNumber(); //get card number
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }

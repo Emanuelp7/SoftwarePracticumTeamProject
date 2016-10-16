@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -43,12 +44,12 @@ public class BalancesTest {
     @Test
     public void testSetBalances() {
         System.out.println("setBalances");
-        Money total = null;
-        Money available = null;
+        Money total = new Money(20, 50); //$20.50
+        Money available = new Money(300); //$300.00
         Balances instance = new Balances();
         instance.setBalances(total, available);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -58,11 +59,14 @@ public class BalancesTest {
     public void testGetTotal() {
         System.out.println("getTotal");
         Balances instance = new Balances();
-        Money expResult = null;
-        Money result = instance.getTotal();
+        Money total = new Money(300); //$300
+        Money available = new Money(100); //$200
+        instance.setBalances(total, available); //set values
+        Money expResult = total; //Should get total's value
+        Money result = instance.getTotal(); //get total's value
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -72,11 +76,15 @@ public class BalancesTest {
     public void testGetAvailable() {
         System.out.println("getAvailable");
         Balances instance = new Balances();
-        Money expResult = null;
-        Money result = instance.getAvailable();
+        Money total = new Money(30);
+        Money available = new Money(20);
+        instance.setBalances(total, available); //set balance
+        Money expResult = available; // should return availables value
+        Money result = instance.getAvailable(); //get available
         assertEquals(expResult, result);
+        
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
