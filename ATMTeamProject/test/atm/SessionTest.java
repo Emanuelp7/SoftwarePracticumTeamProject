@@ -5,28 +5,26 @@
  */
 package atm;
 
-import atm.transaction.Transaction;
-import banking.Card;
-import java.net.InetAddress;
+import java.awt.Frame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import simulation.Simulation;
+
 
 /**
  *
- * @author DeJurnett Norrington
+ * @author Emanuel Peters
  */
 public class SessionTest {
-    
-    int id;
-    String place, bankName;
-    InetAddress bankAddress;
-    
-    ATM atm = new ATM(id, place, bankName, bankAddress);
-    
+    ATM atm = null;
+    Simulation theSimulation;
+    Session instance;
     public SessionTest() {
     }
     
@@ -40,24 +38,42 @@ public class SessionTest {
     
     @Before
     public void setUp() {
+        atm = new ATM(42, "Gordon College", "First National Bank of Podunk",null);
+        theSimulation = new Simulation(atm);
+        Frame mainFrame = new Frame("ATM Simulation");
+        instance= new Session(atm);
+        mainFrame.add(theSimulation.getGUI());
+        mainFrame.setVisible(true);
     }
     
     @After
     public void tearDown() {
+        atm = null;
     }
 
     /**
      * Test of performSession method, of class Session.
+     * Checks to see if performSession runs without error.
      */
     @Test
     public void testPerformSession() {
         System.out.println("performSession");
-        Session instance = new Session(atm);
-        Card card = null;
-        Transaction currentTransaction = null;
-        instance.performSession();
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+       // Session instance = new Session(atm);
+      // instance.performSession();
+        new Thread(new Runnable(){
+            public void run(){
+                instance = new Session(atm);
+                instance.performSession();
+            }
+        }).start();
+        try {
+            Thread.sleep(2000);
+            // TODO review the generated test code and remove the default call to fail.
+            // fail("The test case is a prototype.");
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SessionTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //theSimulation.ejectCard();
     }
 
     /**
