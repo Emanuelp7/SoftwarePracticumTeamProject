@@ -68,7 +68,6 @@ public class ATMTest {
         ATM instance = new ATM(42, "Gordon College", "First National Bank of Podunk",null);
         instance.switchOn();
         // TODO review the generated test code and remove the default call to fail.
-        assertFalse(false);
         //fail("The test case is a prototype.");
     }
 
@@ -81,7 +80,6 @@ public class ATMTest {
         ATM instance = new ATM(42, "Gordon College", "First National Bank of Podunk",null);
         instance.switchOff();
         // TODO review the generated test code and remove the default call to fail.
-        assertFalse(false);
         
         //fail("The test case is a prototype.");
     }
