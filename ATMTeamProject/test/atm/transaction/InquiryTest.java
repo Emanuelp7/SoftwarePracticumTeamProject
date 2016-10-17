@@ -5,21 +5,36 @@
  */
 package atm.transaction;
 
+import atm.ATM;
+import atm.Session;
+import atm.physical.CustomerConsole;
+import banking.AccountInformation;
+import banking.Card;
 import banking.Message;
+import banking.Money;
 import banking.Receipt;
+import java.awt.Frame;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import simulation.Simulation;
 
 /**
  *
- * @author DeJurnett Norrington
+ * @author Emanuel Peters
  */
 public class InquiryTest {
-    
+    ATM atm = null;
+    Simulation theSimulation;
+    Session session;
+    Card card;
+    int pin =4321;
     public InquiryTest() {
     }
     
@@ -33,6 +48,14 @@ public class InquiryTest {
     
     @Before
     public void setUp() {
+        atm = new ATM(42, "Gordon College", "First National Bank of Podunk",null);
+        theSimulation = new Simulation(atm);
+        Frame mainFrame = new Frame("ATM Simulation");
+        session= new Session(atm);
+        card = new Card(65165156);
+        mainFrame.add(theSimulation.getGUI());
+        mainFrame.setVisible(true);
+        System.out.println("Setup Complete!");
     }
     
     @After
@@ -45,12 +68,25 @@ public class InquiryTest {
     @Test
     public void testGetSpecificsFromCustomer() throws Exception {
         System.out.println("getSpecificsFromCustomer");
-        Inquiry instance = null;
-        Message expResult = null;
+        Inquiry instance = new Inquiry(atm, session, card, pin);
+        Message expResult = new Message(Message.INQUIRY,
+                card, pin, 1, 0, -1, new Money(0));
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    //enter checking aoount
+                    Thread.sleep(1000);
+                    theSimulation.getKeyboard().pressDigit(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Error!!!");
+                }
+            }
+        }).start();
         Message result = instance.getSpecificsFromCustomer();
-        assertEquals(expResult, result);
+        assertTrue(expResult.toString().equals(result.toString()));
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -59,12 +95,45 @@ public class InquiryTest {
     @Test
     public void testCompleteTransaction() {
         System.out.println("completeTransaction");
-        Inquiry instance = null;
-        Receipt expResult = null;
-        Receipt result = instance.completeTransaction();
-        assertEquals(expResult, result);
+        Inquiry instance = new Inquiry(atm, session, card, pin);
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    //enter checking aoount
+                    Thread.sleep(1000);
+                    theSimulation.getKeyboard().pressDigit(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Error!!!");
+                }
+            }
+        }).start();
+        Receipt expResult=null;
+        Receipt result=null;
+        try {
+            final Message m = instance.getSpecificsFromCustomer();
+
+            expResult = new Receipt(atm, card, instance, instance.balances) {
+                {
+                    detailsPortion = new String[2];
+                    detailsPortion[0] = "INQUIRY FROM: "
+                            + AccountInformation.ACCOUNT_ABBREVIATIONS[m.getFromAccount()];
+                    detailsPortion[1] = "";
+                }
+            };
+
+            result = instance.completeTransaction();
+        } catch (CustomerConsole.Cancelled ex) {
+            Logger.getLogger(InquiryTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Enumeration exp =expResult.getLines(), r=result.getLines();
+        exp.nextElement();//times will very
+        r.nextElement();//times will very
+        while(exp.hasMoreElements()){
+            assertTrue(exp.nextElement().equals(r.nextElement()));
+        }
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
