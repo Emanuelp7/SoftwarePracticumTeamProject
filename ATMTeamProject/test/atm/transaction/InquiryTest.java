@@ -85,8 +85,6 @@ public class InquiryTest {
         }).start();
         Message result = instance.getSpecificsFromCustomer();
         assertTrue(expResult.toString().equals(result.toString()));
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -132,8 +130,6 @@ public class InquiryTest {
         while(exp.hasMoreElements()){
             assertTrue(exp.nextElement().equals(r.nextElement()));
         }
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
     
 }
