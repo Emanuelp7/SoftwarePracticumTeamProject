@@ -7,11 +7,13 @@ package atm.transaction;
 
 import atm.ATM;
 import atm.Session;
+import banking.AccountInformation;
 import banking.Card;
 import banking.Message;
 import banking.Money;
 import banking.Receipt;
 import java.awt.Frame;
+import java.util.Enumeration;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -100,13 +102,51 @@ public class DepositTest {
      */
     @Test
     public void testCompleteTransaction() throws Exception {
-        System.out.println("completeTransaction");
-        Deposit instance = null;
-        Receipt expResult = null;
+        Deposit instance = new Deposit(atm, session, card, pin);
+        //runs a full transaction
+        new Thread(new Runnable() {
+            Object syncObj = new Object();
+
+            public void run() {
+                try {
+                    //enter checking aoount
+                    Thread.sleep(1000);
+                    theSimulation.getKeyboard().pressDigit(1);
+                    Thread.sleep(1000);
+                    //type $15.69 on keyboard
+                    theSimulation.getKeyboard().pressDigit(1);
+                    theSimulation.getKeyboard().pressDigit(5);
+                    theSimulation.getKeyboard().pressDigit(6);
+                    theSimulation.getKeyboard().pressDigit(9);
+                    theSimulation.getKeyboard().pressEnter();
+                    Thread.sleep(1000);
+                    theSimulation.getEnvelopeAcceptor().insertEnvelope();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Error!!!");
+                }
+            }
+        }).start();
+        final Message m = instance.getSpecificsFromCustomer();//sets up the transaction
+        Receipt expResult = new Receipt(atm, card, instance, instance.balances) {
+            {
+                detailsPortion = new String[2];
+                detailsPortion[0] = "DEPOSIT TO: "
+                        + AccountInformation.ACCOUNT_ABBREVIATIONS[m.getToAccount()];
+                detailsPortion[1] = "AMOUNT: " + m.getAmount().toString();
+            }
+        };
         Receipt result = instance.completeTransaction();
-        assertEquals(expResult, result);
+        System.out.println("completeTransaction");
+        //assertTrue(((String)expResult.getLines().nextElement()).equals(((String)result.getLines().nextElement())));
+        Enumeration exp =expResult.getLines(), r=result.getLines();
+        exp.nextElement();//times will very
+        r.nextElement();//times will very
+        while(exp.hasMoreElements()){
+            assertTrue(exp.nextElement().equals(r.nextElement()));
+        }
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
