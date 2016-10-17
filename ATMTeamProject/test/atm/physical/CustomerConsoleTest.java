@@ -5,13 +5,18 @@
  */
 package atm.physical;
 
+import atm.ATM;
+import atm.Session;
 import banking.Money;
+import java.awt.Frame;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
+import simulation.Simulation;
 
 /**
  *
@@ -19,6 +24,9 @@ import static org.junit.Assert.*;
  */
 public class CustomerConsoleTest {
     
+    ATM atm = null;
+    Simulation theSimulation;
+    Session inst;
     
     public CustomerConsoleTest() {
     }
@@ -33,6 +41,12 @@ public class CustomerConsoleTest {
     
     @Before
     public void setUp() {
+        atm = new ATM(42, "Gordon College", "First National Bank of Podunk",null);
+        theSimulation = new Simulation(atm);
+        Frame mainFrame = new Frame("ATM Simulation");
+        inst = new Session(atm);
+        mainFrame.add(theSimulation.getGUI());
+        mainFrame.setVisible(true);
     }
     
     @After
@@ -58,9 +72,8 @@ public class CustomerConsoleTest {
     @Test
     public void testReadPIN() throws Exception {
         System.out.println("readPIN");
-        String prompt = "2222";
+        String prompt = "Please input you pin";
         CustomerConsole instance = new CustomerConsole();
-        instance.display("Reading Pin....");
         int expResult = 2222;
         int result = instance.readPIN(prompt);
         assertEquals(expResult, result);
@@ -74,8 +87,8 @@ public class CustomerConsoleTest {
     @Test
     public void testReadMenuChoice() throws Exception {
         System.out.println("readMenuChoice");
-        String prompt = "1";
-        String[] menu = {"0", "1", "2"};
+        String prompt = "Please select which operation you would like to select";
+        String[] menu = {"Withdrawl", "Transfer", "Deposit", "Balance Inquiry"};
         CustomerConsole instance = new CustomerConsole();
         int expResult = 1;
         int result = instance.readMenuChoice(prompt, menu);
@@ -88,10 +101,11 @@ public class CustomerConsoleTest {
     /**
      * Test of readAmount method, of class CustomerConsole.
      */
+    @Ignore
     @Test
     public void testReadAmount() throws Exception {
         System.out.println("readAmount");
-        String prompt = "";
+        String prompt = "Give any reasonable amount of money";
         CustomerConsole instance = new CustomerConsole();
         Money expResult = null;
         Money result = instance.readAmount(prompt);
