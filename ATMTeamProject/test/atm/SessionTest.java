@@ -25,6 +25,7 @@ public class SessionTest {
     ATM atm = null;
     Simulation theSimulation;
     Session instance;
+    
     public SessionTest() {
     }
     
