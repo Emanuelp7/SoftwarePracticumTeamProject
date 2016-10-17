@@ -7,6 +7,7 @@ package atm.transaction;
 
 import atm.ATM;
 import atm.Session;
+import atm.physical.CustomerConsole;
 import banking.AccountInformation;
 import banking.Card;
 import banking.Message;
@@ -14,6 +15,8 @@ import banking.Money;
 import banking.Receipt;
 import java.awt.Frame;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,14 +29,13 @@ import simulation.Simulation;
  *
  * @author Emanuel Peters
  */
-public class DepositTest {
-    
+public class InquiryTest {
     ATM atm = null;
     Simulation theSimulation;
     Session session;
     Card card;
     int pin =4321;
-    public DepositTest() {
+    public InquiryTest() {
     }
     
     @BeforeClass
@@ -58,86 +60,72 @@ public class DepositTest {
     
     @After
     public void tearDown() {
-        
     }
 
     /**
-     * Test of getSpecificsFromCustomer method, of class Deposit.
+     * Test of getSpecificsFromCustomer method, of class Inquiry.
      */
     @Test
-    public void testGetSpecificsFromCustomer() throws Exception { 
-        Deposit instance = new Deposit(atm, session, card, pin);
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    //enter checking aoount
-                    Thread.sleep(1000);
-                    theSimulation.getKeyboard().pressDigit(1);
-                    Thread.sleep(1000);
-                    //type $15.69 on keyboard
-                    theSimulation.getKeyboard().pressDigit(1);
-                    theSimulation.getKeyboard().pressDigit(5);
-                    theSimulation.getKeyboard().pressDigit(6);
-                    theSimulation.getKeyboard().pressDigit(9);
-                    theSimulation.getKeyboard().pressEnter();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("Error!!!");
-                }
-            }
-        }).start();
+    public void testGetSpecificsFromCustomer() throws Exception {
         System.out.println("getSpecificsFromCustomer");
-        Message expResult = new Message(Message.INITIATE_DEPOSIT,
-                           card, pin, 1, -1, 0, new Money(15,69));
-        Message result = instance.getSpecificsFromCustomer();
-        System.out.println(expResult);
-        System.out.println(result);
-        assertTrue(expResult.toString().equals(result.toString()));
-       
-    }
-
-    /**
-     * Test of completeTransaction method, of class Deposit.
-     */
-    @Test
-    public void testCompleteTransaction() throws Exception {
-        Deposit instance = new Deposit(atm, session, card, pin);
-        //runs a full transaction
+        Inquiry instance = new Inquiry(atm, session, card, pin);
+        Message expResult = new Message(Message.INQUIRY,
+                card, pin, 1, 0, -1, new Money(0));
         new Thread(new Runnable() {
-          
-
             public void run() {
                 try {
                     //enter checking aoount
                     Thread.sleep(1000);
                     theSimulation.getKeyboard().pressDigit(1);
-                    Thread.sleep(1000);
-                    //type $15.69 on keyboard
-                    theSimulation.getKeyboard().pressDigit(1);
-                    theSimulation.getKeyboard().pressDigit(5);
-                    theSimulation.getKeyboard().pressDigit(6);
-                    theSimulation.getKeyboard().pressDigit(9);
-                    theSimulation.getKeyboard().pressEnter();
-                    Thread.sleep(1000);
-                    theSimulation.getEnvelopeAcceptor().insertEnvelope();
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Error!!!");
                 }
             }
         }).start();
-        final Message m = instance.getSpecificsFromCustomer();//sets up the transaction
-        Receipt expResult = new Receipt(atm, card, instance, instance.balances) {
-            {
-                detailsPortion = new String[2];
-                detailsPortion[0] = "DEPOSIT TO: "
-                        + AccountInformation.ACCOUNT_ABBREVIATIONS[m.getToAccount()];
-                detailsPortion[1] = "AMOUNT: " + m.getAmount().toString();
-            }
-        };
-        Receipt result = instance.completeTransaction();
+        Message result = instance.getSpecificsFromCustomer();
+        assertTrue(expResult.toString().equals(result.toString()));
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of completeTransaction method, of class Inquiry.
+     */
+    @Test
+    public void testCompleteTransaction() {
         System.out.println("completeTransaction");
-        //assertTrue(((String)expResult.getLines().nextElement()).equals(((String)result.getLines().nextElement())));
+        Inquiry instance = new Inquiry(atm, session, card, pin);
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    //enter checking aoount
+                    Thread.sleep(1000);
+                    theSimulation.getKeyboard().pressDigit(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Error!!!");
+                }
+            }
+        }).start();
+        Receipt expResult=null;
+        Receipt result=null;
+        try {
+            final Message m = instance.getSpecificsFromCustomer();
+
+            expResult = new Receipt(atm, card, instance, instance.balances) {
+                {
+                    detailsPortion = new String[2];
+                    detailsPortion[0] = "INQUIRY FROM: "
+                            + AccountInformation.ACCOUNT_ABBREVIATIONS[m.getFromAccount()];
+                    detailsPortion[1] = "";
+                }
+            };
+
+            result = instance.completeTransaction();
+        } catch (CustomerConsole.Cancelled ex) {
+            Logger.getLogger(InquiryTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Enumeration exp =expResult.getLines(), r=result.getLines();
         exp.nextElement();//times will very
         r.nextElement();//times will very
