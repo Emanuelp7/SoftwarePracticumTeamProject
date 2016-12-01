@@ -6,7 +6,7 @@
 package atm.transaction;
 
 import atm.ATM;
-import atm.Session;
+import atm.session.Session;
 import banking.AccountInformation;
 import banking.Card;
 import banking.Message;

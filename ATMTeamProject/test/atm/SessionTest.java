@@ -5,6 +5,7 @@
  */
 package atm;
 
+import atm.session.Session;
 import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;

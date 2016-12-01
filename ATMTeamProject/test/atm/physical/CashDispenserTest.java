@@ -6,7 +6,7 @@
 package atm.physical;
 
 import atm.ATM;
-import atm.Session;
+import atm.session.Session;
 import banking.Money;
 import java.awt.Frame;
 import org.junit.After;
