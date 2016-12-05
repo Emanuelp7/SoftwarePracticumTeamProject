@@ -10,6 +10,7 @@ import atm.session.Session;
 import atm.physical.CustomerConsole;
 import banking.AccountInformation;
 import banking.Card;
+import banking.DebitCard;
 import banking.Message;
 import banking.Money;
 import banking.Receipt;
@@ -53,7 +54,7 @@ public class WithdrawalTest {
         theSimulation = new Simulation(atm);
         Frame mainFrame = new Frame("ATM Simulation");
         session= new Session(atm);
-        card = new Card(65165156);
+        card = new DebitCard(65165156);
         mainFrame.add(theSimulation.getGUI());
         mainFrame.setVisible(true);
         System.out.println("Setup Complete!");

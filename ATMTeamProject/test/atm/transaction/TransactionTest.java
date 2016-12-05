@@ -55,7 +55,7 @@ public class TransactionTest {
         Card card = null;
         int pin = 0;
         Transaction expResult = null;
-        Transaction result = Transaction.makeTransaction(atm, session, card, pin);
+        Transaction result = TransactionFacade.makeTransaction(atm, session, card, pin);
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

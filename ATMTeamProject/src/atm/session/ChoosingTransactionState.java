@@ -8,6 +8,7 @@ package atm.session;
 import atm.ATM;
 import atm.physical.CustomerConsole;
 import atm.transaction.Transaction;
+import atm.transaction.TransactionFacade;
 import banking.Card;
 
 /**
@@ -29,7 +30,7 @@ public class ChoosingTransactionState extends SessionState{
         try
         {
             currentTransaction = 
-                Transaction.makeTransaction(atm, session, card, pin);
+                TransactionFacade.makeTransaction(atm, session, card, pin);
             session.setState(new PerformingTransactionState(this));
         }
         catch(CustomerConsole.Cancelled e)
